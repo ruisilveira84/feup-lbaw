@@ -1,0 +1,279 @@
+openapi: 3.0.0
+
+info:
+  version: '1.0'
+  title: 'LBAW DibsOnBids Web API'
+  description: 'Web Resources Specification (A7) for DibsOnBids'
+
+servers:
+- url: http://lbaw2332.fe.up.pt
+  description: Production server
+
+externalDocs:
+  description: Find more info here.
+  url: https://git.fe.up.pt/lbaw/lbaw2324/lbaw2332/-/wikis/eap
+
+tags:
+  - name: 'M01: Authentication'
+  - name: 'M02: Users'
+  - name: 'M03: Search'
+  - name: 'M04: Auctions'
+  - name: 'M05: Comments'
+  - name: 'M06: Messages'
+  - name: 'M07: Notifications'
+  - name: 'M08: API'
+
+paths:
+  /login:
+    get:
+      operationId: R101
+      summary: 'R101: Login Form'
+      description: 'Website login page. (PUB)'
+      tags:
+        - 'M01: Authentication'
+      responses:
+        '200':
+          description: 'OK. Show page.'
+    post:
+      operationId: R102
+      summary: 'R102: Login Action'
+      description: 'Forward the login form to the backend. (PUB)'
+      tags:
+        - 'M01: Authentication'
+        
+      requestBody:
+        required: true
+        content:
+          applicaton/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+                - password
+                
+      responses:
+        '200':
+          description: 'Redirect after successful autentication.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                200Example:
+                  description: 'Autentication successful. Redirecting to home page.'
+                  value: '/home'
+        '401':
+          description: 'Authentication failed.'
+  /logout:
+    post:
+      operationId: R103
+      summary: 'R103: Logout Action'
+      description: 'Log out the current user if authenticated. (USR;ADM)'
+      tags:
+        - 'M01: Authentication'
+        
+      responses:
+        '200':
+          description: 'Redirect after successful logout.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                200Home:
+                  description: 'Sucessful logout. Redirecting to home page.'
+                  value: '/home'
+                200Login:
+                  description: 'Sucessful logout. Redirecting to login form.'
+        '401':
+          description: 'Logout failed. User not logged in.'
+  
+  /register:
+    get:
+      operationId: R104
+      summary: 'R104: Register Form'
+      description: 'Retrieve user registration from from server. (PUB)'
+      tags:
+        - 'M01: Authentication'
+        
+      responses:
+        '200':
+          description: 'OK. Show page.'
+    
+    post:
+      operationId: R105
+      summary: 'R105: Register Action'
+      description: 'Process user registration form. (PUB)'
+      tags:
+        - 'M01: Authentication'
+      
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                passsword:
+                  type: string
+              required:
+                - username
+                - email
+                - password
+
+      responses:
+        '200':
+          description: 'Redirect after successful registration.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                200Example:
+                  description: 'Successful registration. Redirecting to home page'
+                  value: '/home'
+        '401':
+          description: 'Registration failed.'
+  
+  /users/{username}:
+    get:
+      operationId: R106
+      summary: 'R106: View user profile'
+      description: 'Show public user profile. (PUB)'
+      tags:
+        - 'M02: Users'
+
+      parameters:
+        - in: path
+          name: username
+          schema:
+            type: string
+          required: true
+
+      responses:
+        '200':
+          description: 'OK. Show the user profile.'
+        '401':
+          description: 'User profile is private.'
+    
+  /search/{query}:
+    get:
+      operationId: R107
+      summary: 'R107: Search for auctions/items. (PUB)'
+      tags:
+        - 'M03: Search'
+
+      parameters:
+        - in: path
+          name: query
+          schema:
+            type: string
+          required: true
+
+      responses:
+        '200':
+          description: 'OK. Display results matching query.'
+        '404':
+          description: 'Auctions/items not found.'
+    
+  /auction/{id}:
+    get:
+      operationId: R108
+      summary: 'R108: Display auction. (PUB)'
+      tags:
+        - 'M04: Auctions'
+
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      
+      responses:
+        '200':
+          description: 'OK. Display auction.'
+        '404':
+          description: 'Auction corrresponding to given ID not found.'
+  
+  /auction/{id}#comments:
+    get:
+      operationId: R109
+      summary: 'R109: Display auction comments. (PUB)'
+      tags:
+        - 'M04: Auctions'
+        - 'M05: Comments'
+
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      
+      responses:
+        '200':
+          description: 'OK. Display comments.'
+        '404':
+          description: 'Comments cooresponding to given auction not found.'
+
+  /messages:
+    post:
+      operationId: R110
+      summary: 'Display messages for currently logged-in user. (USR)'
+      tags:
+        - 'M02: Users'
+        - 'M06: Messages'
+      
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+              required:
+                - id
+      
+      responses:
+        '200':
+          description: 'OK. Show mesages page.'
+        '401':
+          description: 'Not logged in as the given user.'
+
+  /notifications:
+    post:
+      operationId: R111
+      summary: 'Display notifications for currently logged-in user. (USR)'
+      tags:
+        - 'M02: Users'
+        - 'M07: Notifications'
+      
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+              required:
+                - id
+      
+      responses:
+        '200':
+          description: 'OK. Show notifcations page.'
+        '401':
+          description: 'Not logged in as the given user.'

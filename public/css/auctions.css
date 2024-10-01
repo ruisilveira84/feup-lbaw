@@ -1,0 +1,49 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #007BFF;
+    text-align: center;
+}
+
+.auction-details {
+    margin-top: 20px;
+}
+
+.auction-details p {
+    margin-bottom: 10px;
+}
+
+.status-active {
+    color: green;
+}
+
+.status-completed {
+    color: blue;
+}
+
+.status-cancelled {
+    color: red;
+}
+
+.btn-place-bid {
+    background-color: #007BFF; /* Cor de fundo do botão */
+    color: #fff; /* Cor do texto do botão */
+    padding: 10px 20px; /* Espaçamento interno do botão */
+    border: none; /* Remover a borda padrão do botão */
+    border-radius: 5px; /* Adicionar borda arredondada */
+    cursor: pointer; /* Mudar o cursor ao passar sobre o botão */
+}

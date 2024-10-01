@@ -1,0 +1,27 @@
+.container {
+    text-align: center; 
+}
+
+.form-group {
+    display: inline-block; 
+    text-align: left; 
+    margin-top: 20px; 
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    padding: 10px 15px; 
+    color: white; 
+    border-radius: 4px;
+    cursor: pointer; 
+}
+
+label {
+    display: block; 
+    margin-bottom: .5rem; 
+}
+
+input[type="number"] {
+    margin-bottom: 1rem; 
+}
