@@ -1,6 +1,6 @@
 # Database and Web Applications Laboratory 2023/2024
 
-This repository contains the group project for the LBAW course unit at [FEUP](https://sigarra.up.pt/feup/pt/web_page.inicial).
+This repository contains the group project for the [LBAW](https://sigarra.up.pt/feup/pt/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=520328) course unit at [FEUP](https://sigarra.up.pt/feup/pt/web_page.inicial).
 
 ## Project Components
 
